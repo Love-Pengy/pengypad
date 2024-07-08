@@ -1,0 +1,2 @@
++ Getting LED (WS2812) working on rpi-zero
+    + https://github.com/raspberrypi/pico-examples/tree/master/pio/ws2812
