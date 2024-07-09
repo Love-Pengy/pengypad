@@ -1,2 +1,9 @@
 + Getting LED (WS2812) working on rpi-zero
     + https://github.com/raspberrypi/pico-examples/tree/master/pio/ws2812
++ very good for undertsanding everything in a compact format
+    + https://www.beyondlogic.org/usbnutshell/usb5.shtml#ConfigurationDescriptors
++ official docs
+    + https://www.usb.org/sites/default/files/hid1_11.pdf
+    + this is referenced in the official docs
+        + https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://usb.ktemkin.com/files/8a35f1350a32d1b2ab2efa5c3e5036e30b9cdcac53a4f772a8db122fcbe2a1a1/usb_device_framework_chapter.pdf&ved=2ahUKEwiLqu662JiHAxVdEFkFHXpqAuMQFnoECBUQAQ&usg=AOvVaw23TmjljszMGQNjGTtWw_Sn
+

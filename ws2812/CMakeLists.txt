@@ -35,3 +35,5 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_LIST_DIR}/generated/ws2812.py
         COMMAND Pioasm -o python ${CMAKE_CURRENT_LIST_DIR}/ws2812.pio ${CMAKE_CURRENT_LIST_DIR}/generated/ws2812.py
         VERBATIM)
 add_dependencies(pio_ws2812 pio_ws2812_datasheet)
+pico_enable_stdio_usb(pio_ws2812 1)
+pico_enable_stdio_uart(pio_ws2812 0)
