@@ -12,17 +12,46 @@
 #include "pico/stdlib.h"
 #include "ws2812.pio.h"
 
+enum {
+    ENFORCE = 0,
+    SIDEEYE,
+};
+
+// NOTE: VALUES ARE IN GRB
+enum status {
+    MOUNTED = 0,  // green (0x110000)
+    UNMOUNTED,    // red (0x001100)
+    SUSPENDED,    // blue (0x000011)
+};
+
 #define IS_RGBW true
 #define NUM_PIXELS 1
 #define WS2812_PIN 16
-static bool PAUSE_INDICATOR = false;
+
 // start going up
 static int dir = 1;
 
-enum{
-    ENFORCE = 0, 
-    SIDEEYE, 
-};
+static enum status currStatus = UNMOUNTED;
+
+static uint32_t currColor = 0x001100;
+
+// 0 = mounted, 1 = unmounted, 2 =  suspended
+static void changeStatus(int val) {
+    switch (val) {
+        case 0:
+            currStatus = MOUNTED;
+            currColor = 0x110000;
+            break;
+        case 1:
+            currStatus = UNMOUNTED;
+            currColor = 0x001100;
+            break;
+        case 2:
+            currStatus = SUSPENDED;
+            currColor = 0x000011;
+            break;
+    }
+}
 
 static inline void put_pixel(uint32_t pixel_grb) {
     pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
@@ -33,15 +62,14 @@ static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
 }
 
 void pattern_fade(uint len, uint t) {
-    (void)len;
-    (void)t;
-    int max = 35;  
+    int max = 35;
     t %= max;
 
     uint32_t val;
     int zeroEnforcer = SIDEEYE;
     for (int i = 0; i < len; ++i) {
-        val = (t * 0x10101) > (0x10101 * 10) ? (0x10101 * 10) : (t * 0x10101);
+        val = (t * currColor) > (currColor * 10) ? (currColor * 10)
+                                                 : (t * currColor);
         if (!val || (++t >= max)) {
             switch (dir) {
                 case 1:
@@ -55,10 +83,10 @@ void pattern_fade(uint len, uint t) {
                     break;
             }
         }
-        if(zeroEnforcer){
+        if (zeroEnforcer) {
             put_pixel(val);
         }
-        //if (++t >= max){ t = 0; printf("MAXX\n");}
+        // if (++t >= max){ t = 0; printf("MAXX\n");}
     }
 }
 
@@ -92,6 +120,6 @@ int main() {
                 t += dir;
             }
         }
-        //sleep_ms(2000);
+        // sleep_ms(2000);
     }
 }
