@@ -3,9 +3,11 @@
 #include <string.h>
 
 #include "bsp/board.h"
+#include "pico/multicore.h"
+#include "pico/stdlib.h"
 #include "tusb.h"
 #include "usb_descriptors.h"
-
+#include "ws2812/ws2812.h"
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF PROTYPES
@@ -29,31 +31,52 @@ void led_blinking_task(void);
 void hid_task(void);
 
 int main(void) {
+    stdio_init_all();
+    multicore_launch_core1(ws2812Runner);
+    multicore_fifo_pop_blocking();
+    // have no clue what the flag value does (123)
+    multicore_fifo_push_blocking(123);
+
     board_init();
     tusb_init();
+	/*   should show up as the following: */
+	/*   0001  Fry's Electronics*/
+	/*7778  Counterfeit flash drive [Kingston]*/
     while (1) {
+        //causes ws2812Runner to break
         tud_task();
-        led_blinking_task();
+        // led_blinking_task();
         hid_task();
     }
 }
 
 // Invoked when device is mounted
-void tud_mount_cb(void) { blink_interval_ms = BLINK_MOUNTED; }
+void tud_mount_cb(void) {
+    ws2812ChangeStatus(0); 
+    blink_interval_ms = BLINK_MOUNTED; 
+}
 
 // Invoked when device is unmounted
-void tud_umount_cb(void) { blink_interval_ms = BLINK_NOT_MOUNTED; }
+void tud_umount_cb(void) {
+    ws2812ChangeStatus(1);
+    blink_interval_ms = BLINK_NOT_MOUNTED;
+}
 
 // Invoked when usb bus is suspended
 // remote_wakeup_en : if host allow us  to perform remote wakeup
-// Within 7ms, device must draw an average of current less than 2.5 mA from bus
+// Within 7ms, device must draw an average of current less than 2.5 mA from
+// bus
 void tud_suspend_cb(bool remote_wakeup_en) {
     (void)remote_wakeup_en;
+    ws2812ChangeStatus(2);
     blink_interval_ms = BLINK_SUSPENDED;
 }
 
 // Invoked when usb bus is resumed
-void tud_resume_cb(void) { blink_interval_ms = BLINK_MOUNTED; }
+void tud_resume_cb(void) {
+    ws2812ChangeStatus(0);
+    blink_interval_ms = BLINK_MOUNTED;
+}
 
 //--------------------------------------------------------------------+
 // USB HID
@@ -63,27 +86,28 @@ static void send_hid_report(uint8_t report_id, uint32_t keyPressed) {
     // skip if hid is not ready yet
     if (!tud_hid_ready()) {
         return;
+    }
 
-        // use to avoid send multiple consecutive zero report for keyboard
-        static bool has_keyboard_key = false;
+    // use to avoid send multiple consecutive zero report for keyboard
+    static bool has_keyboard_key = false;
 
-        if (keyPressed) {
-            uint8_t keycode[6] = {0};
-            keycode[0] = HID_KEY_A;
+    if (keyPressed) {
+        uint8_t keycode[6] = {0};
+        keycode[0] = HID_KEY_A;
 
-            tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
-            has_keyboard_key = true;
-        }
-        else {
-            // send empty key report if previously has key pressed
-            if (has_keyboard_key)
-                tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
-            has_keyboard_key = false;
-        }
+        tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
+        has_keyboard_key = true;
+    }
+    else {
+        // send empty key report if previously has key pressed
+        if (has_keyboard_key)
+            tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
+        has_keyboard_key = false;
     }
 }
 
-// Every 10ms, we will sent 1 report for each HID profile (keyboard, mouse etc
+// Every 10ms, we will sent 1 report for each HID profile (keyboard, mouse
+// etc
 // ..) tud_hid_report_complete_cb() is used to send the next report after
 // previous one is complete
 void hid_task(void) {
@@ -96,6 +120,7 @@ void hid_task(void) {
     }
     start_ms += interval_ms;
 
+    // for testing purposes we are assuming that it is always pressed
     uint32_t const btn = board_button_read();
 
     // Remote wakeup
@@ -164,6 +189,7 @@ void tud_hid_set_report_cb(
                 // Caplocks Off: back to normal blink
                 board_led_write(false);
                 blink_interval_ms = BLINK_MOUNTED;
+                ws2812ChangeStatus(0);
             }
         }
     }
@@ -172,7 +198,7 @@ void tud_hid_set_report_cb(
 //--------------------------------------------------------------------+
 // BLINKING TASK
 //--------------------------------------------------------------------+
-
+/*
 void led_blinking_task(void) {
     static uint32_t start_ms = 0;
     static bool led_state = false;
@@ -181,11 +207,12 @@ void led_blinking_task(void) {
     if (!blink_interval_ms) return;
 
     // Blink every interval ms
-    if (board_millis() - start_ms < blink_interval_ms){
+    if (board_millis() - start_ms < blink_interval_ms) {
         return;  // not enough time
     }
     start_ms += blink_interval_ms;
 
-    board_led_write(led_state);
+    // board_led_write(led_state);
     led_state = 1 - led_state;  // toggle
 }
+*/

@@ -9,6 +9,7 @@
 
 #include "hardware/clocks.h"
 #include "hardware/pio.h"
+#include "pico/multicore.h"
 #include "pico/stdlib.h"
 #include "ws2812.pio.h"
 
@@ -36,7 +37,7 @@ static enum status currStatus = UNMOUNTED;
 static uint32_t currColor = 0x001100;
 
 // 0 = mounted, 1 = unmounted, 2 =  suspended
-static void changeStatus(int val) {
+void ws2812ChangeStatus(int val) {
     switch (val) {
         case 0:
             currStatus = MOUNTED;
@@ -98,12 +99,9 @@ const struct {
     {pattern_fade, "Fade"},
 };
 
-int main() {
-    // set_sys_clock_48();
-    stdio_init_all();
-    // printf("WS2812 Smoke Test, using pin %d", WS2812_PIN);
+void ws2812Runner(void) {
+    multicore_fifo_push_blocking(123);
 
-    // todo get free sm
     PIO pio = pio0;
     int sm = 0;
     uint offset = pio_add_program(pio, &ws2812_program);
@@ -120,6 +118,9 @@ int main() {
                 t += dir;
             }
         }
-        // sleep_ms(2000);
     }
+
+    multicore_fifo_pop_blocking();
 }
+
+

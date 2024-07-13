@@ -5,7 +5,7 @@
 
 // TAKEN FROM EXAMPLE PLAY WITH LATER
 #define _PID_MAP(itf, n) ((CFG_TUD_##itf) << (n))
-#define USB_PID                                                        \
+#define USB_PID \
     (0x4000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | \
      _PID_MAP(MIDI, 3) | _PID_MAP(VENDOR, 4))
 
@@ -35,16 +35,16 @@ uint8_t const* tud_hid_descriptor_report_cb(uint8_t instance) {
 //--------------------------------------------------------------------+
 tusb_desc_device_t const device_descriptor = {
     .bLength = sizeof(tusb_desc_device_t),
-    .bDescriptorType = 0x01,  // specifies that this is a device descriptor
-    .bcdUSB = 0x0110,
+    .bDescriptorType = TUSB_DESC_DEVICE,  // specifies that this is a device descriptor
+    .bcdUSB = USB_BCD,
     .bDeviceClass = 0x00,
     .bDeviceSubClass = 0x00,
     .bDeviceProtocol = 0x00,
-    .bMaxPacketSize0 = 0x8,
+    .bMaxPacketSize0 = CFG_TUD_ENDPOINT0_SIZE,
 
     .idVendor = USB_VID,
     .idProduct = USB_PID,
-    .bcdDevice = 0x0001,
+    .bcdDevice = 0x0100,
 
     // These are indexes of the string descriptor make sure they match up
     .iManufacturer = 0x01,

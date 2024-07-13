@@ -4,4 +4,4 @@ rm -rf build
 mkdir build 
 cd build 
 cmake ..
-make -j8
+make -j8 -s >/dev/null
