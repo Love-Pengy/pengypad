@@ -110,8 +110,8 @@ char serial[2 * PICO_UNIQUE_BOARD_ID_SIZE_BYTES + 1];
 char const* string_desciptor_arr[] = {
     (const char[]){
         0x09, 0x04},  // index 0: supported language English (code is 0x0409)
-    "Lovely",         // index 1: Manufacturer
-    "Transposition",  // index 2: product name
+    "Pengy Pro.",         // index 1: Manufacturer
+    "PengyPad",  // index 2: product name
     serial,           // index 3: our seral id
 };
 

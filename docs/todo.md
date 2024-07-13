@@ -19,5 +19,8 @@
   - ~~move everything from ws2812 into main.c for the keyboard so that we can implement the main portion of ws2812 as a thread function~~ didn't need to do this 
 - ~~import ws2812 into the actual tusb code~~
 - ~~get usb device to show up~~
+- ~~change usb device name to something cool~~
 
-- change usb device name to something cool
+- change the bin file to pengypad instead of src
+- get my key reading working (don't use a matrix)
+    - replace board_button_read with this function
