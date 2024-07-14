@@ -13,6 +13,11 @@
 #include "pico/stdlib.h"
 #include "ws2812.pio.h"
 
+
+//########################################
+// ALL OF THESE ARE ASSUMING A SINGLE LED#
+//########################################
+
 enum {
     ENFORCE = 0,
     SIDEEYE,
@@ -36,7 +41,8 @@ static enum status currStatus = UNMOUNTED;
 
 static uint32_t currColor = 0x001100;
 
-// 0 = mounted, 1 = unmounted, 2 =  suspended
+static int currMode = 0;
+
 void ws2812ChangeStatus(int val) {
     switch (val) {
         case 0:
@@ -51,8 +57,11 @@ void ws2812ChangeStatus(int val) {
             currStatus = SUSPENDED;
             currColor = 0x000011;
             break;
+        default: 
+            break;
     }
 }
+
 
 static inline void put_pixel(uint32_t pixel_grb) {
     pio_sm_put_blocking(pio0, 0, pixel_grb << 8u);
@@ -87,9 +96,13 @@ void pattern_fade(uint len, uint t) {
         if (zeroEnforcer) {
             put_pixel(val);
         }
-        // if (++t >= max){ t = 0; printf("MAXX\n");}
     }
 }
+
+void pattern_solid (uint len, uint t){
+    put_pixel(currColor * 3);
+}
+
 
 typedef void (*pattern)(uint len, uint t);
 const struct {
@@ -97,7 +110,16 @@ const struct {
     const char* name;
 } pattern_table[] = {
     {pattern_fade, "Fade"},
+    {pattern_solid, "Solid"}, 
 };
+
+// corresponds to the index of the mode
+void ws2812ChangeMode(int val){
+    int size = sizeof(pattern_table)/sizeof(pattern_table[0]);        
+    if(val < size){
+       currMode = val; 
+    }
+}
 
 void ws2812Runner(void) {
     multicore_fifo_push_blocking(123);
@@ -110,9 +132,8 @@ void ws2812Runner(void) {
 
     int t = 1;
     while (1) {
-        int pat = 0;
         for (int i = 0; i < 1000; ++i) {
-            pattern_table[pat].pat(NUM_PIXELS, t);
+            pattern_table[currMode].pat(NUM_PIXELS, t);
             sleep_ms(10);
             if (!(i % 5)) {
                 t += dir;

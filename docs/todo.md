@@ -20,7 +20,11 @@
 - ~~import ws2812 into the actual tusb code~~
 - ~~get usb device to show up~~
 - ~~change usb device name to something cool~~
+- ~~create a solid mode for the ws2812 to indicate a mounted state~~
+- ~~change the bin file to pengypad instead of src~~
 
-- change the bin file to pengypad instead of src
+- buy an encoder 
 - get my key reading working (don't use a matrix)
+    - build a makeshift keyboard on a breadboard (just make it manual I dont have buttons)
     - replace board_button_read with this function
+    - make sure there is some form of debouncing 

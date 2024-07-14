@@ -53,12 +53,14 @@ int main(void) {
 // Invoked when device is mounted
 void tud_mount_cb(void) {
     ws2812ChangeStatus(0); 
+    ws2812ChangeMode(1);
     blink_interval_ms = BLINK_MOUNTED; 
 }
 
 // Invoked when device is unmounted
 void tud_umount_cb(void) {
     ws2812ChangeStatus(1);
+    ws2812ChangeMode(0);
     blink_interval_ms = BLINK_NOT_MOUNTED;
 }
 
@@ -69,12 +71,14 @@ void tud_umount_cb(void) {
 void tud_suspend_cb(bool remote_wakeup_en) {
     (void)remote_wakeup_en;
     ws2812ChangeStatus(2);
+    ws2812ChangeMode(0);
     blink_interval_ms = BLINK_SUSPENDED;
 }
 
 // Invoked when usb bus is resumed
 void tud_resume_cb(void) {
     ws2812ChangeStatus(0);
+    ws2812ChangeMode(1);
     blink_interval_ms = BLINK_MOUNTED;
 }
 
