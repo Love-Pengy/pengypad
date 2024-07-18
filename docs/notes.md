@@ -33,10 +33,10 @@
     - Given that information what sequence do we need to send for the following keys
       - Skip
       - Prev
-      - Mute/unmute
+      - Pause/Play Music
       - Pause/play my pomo timer
-      - Suspending computer
-      - Encoder would be vol up vol down
+      - Suspending computer (implement menu by this time)
+      - Encoder would be vol up vol down and mute and unmute
 - Build out the pad itself hardware wise
 - Implement debouncing
 

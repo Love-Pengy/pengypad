@@ -1,8 +1,8 @@
-# TODO
-
 <!--toc:start-->
 - [TODO](#todo)
 <!--toc:end-->
+
+# TODO
 
 - ~~understand usb descriptors~~
 - ~~figure out how to get the on board led working~~
@@ -16,15 +16,45 @@
 - ~~learn threads so you can do one thread for led one thread for actual keeb stuff~~
   - ~~couldn't get the threads library to import properly (the posix ones) so just refactoring ws2812 instead~~ I lied
   - ~~use the multicore pico lib to throw the keyboard functionality on one core and then put the led status on the other~~
-  - ~~move everything from ws2812 into main.c for the keyboard so that we can implement the main portion of ws2812 as a thread function~~ didn't need to do this 
+  - ~~move everything from ws2812 into main.c for the keyboard so that we can implement the main portion of ws2812 as a thread function~~ didn't need to do this
 - ~~import ws2812 into the actual tusb code~~
 - ~~get usb device to show up~~
 - ~~change usb device name to something cool~~
 - ~~create a solid mode for the ws2812 to indicate a mounted state~~
 - ~~change the bin file to pengypad instead of src~~
+- ~~buy an encoder~~
 
-- buy an encoder 
+- decide what keys I want
+  - figure out what the keycodes for these keys are
+    - Skip
+        - KEY_MEDIA_NEXTSONG
+            - 0xeb
+    - Prev
+        - KEY_MEDIA_PREVIOUSSONG
+            - 0xea
+    - Pause/Play Music
+        - KEY_MEDIA_PLAYPAUSE
+            - 0xe8
+    - Pause/play my pomo timer
+        - I still need to make the bind for this
+    - Suspending computer (implement menu by this time)
+        - Keybind: ALT+SHIFT+X
+            - RALT: 0x40
+            - RSHIFT: 0x20
+            - x: 0x1b
+    - Encoder would be vol up vol down and mute and unmute
+        - KEY_VOLUMEUP    
+            - 0x80
+        - KEY_VOLUMEDOWN  
+            - 0x81
+        - KEY_MUTE
+            - 0x7f
 - get my key reading working (don't use a matrix)
-    - build a makeshift keyboard on a breadboard (just make it manual I dont have buttons)
-    - replace board_button_read with this function
-    - make sure there is some form of debouncing 
+  - ~~build a makeshift keyboard on a breadboard (just make it manual I dont have buttons)~~
+  - ~~make sure there is some form of debouncing~~
+    - seems to be built into either the tud functions or the usb interface itself
+  - ~~replace board_button_read with this function~~
+  - ~~when in send_hid_report we need to check what buttons are pressed from the bitmap returned from our scan~~
+  - figure out modifier keys
+  - do the rest of the keys 
+- setup oled

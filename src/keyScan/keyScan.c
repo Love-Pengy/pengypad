@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
+  *Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -25,23 +25,21 @@ uint32_t scanKeys(void) {
   // starting from 29
   for (int i = 0; i < INPINSIZE; i++) {
     if (gpio_get(inPinArray[i])) {
-      // printf("%d\n", i);
-      return (i);
+      return (i + 1);
     }
   }
-  // printf("NONE FOUND\n");
-  return (-1);
+  return (0);
 }
 
-int main() {
-  // green = key 1
-  // yellow = key 2
-  // white = key 3
-  // blue = key 4
-  // red = key 5
-  stdio_init_all();
-  initKeyboard();
-  while (true) {
-    printf("%d\n", scanKeys());
-  }
-}
+/*int main() {*/
+/*  // green = key 1*/
+/*  // yellow = key 2*/
+/*  // white = key 3*/
+/*  // blue = key 4*/
+/*  // red = key 5*/
+/*  stdio_init_all();*/
+/*  initKeyboard();*/
+/*  while (true) {*/
+/*    printf("%d\n", scanKeys());*/
+/*  }*/
+/*}*/

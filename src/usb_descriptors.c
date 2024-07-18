@@ -19,7 +19,7 @@
 
 uint8_t const description_hid_report[] = {
     // this creates our entire report structure
-    TUD_HID_REPORT_DESC_KEYBOARD(),
+    TUD_HID_REPORT_DESC_KEYBOARD(HID_REPORT_ID(1)),
 };
 
 // Invoked when received GET HID REPORT DESCRIPTOR

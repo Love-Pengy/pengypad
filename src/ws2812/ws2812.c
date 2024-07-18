@@ -28,6 +28,7 @@ enum status {
     MOUNTED = 0,  // green (0x110000)
     UNMOUNTED,    // red (0x001100)
     SUSPENDED,    // blue (0x000011)
+    DEBUG, //white (0x111111)
 };
 
 #define IS_RGBW true
@@ -56,8 +57,10 @@ void ws2812ChangeStatus(int val) {
         case 2:
             currStatus = SUSPENDED;
             currColor = 0x000011;
-            break;
+            break; 
         default: 
+            currStatus = DEBUG;
+            currColor = 0x111111;
             break;
     }
 }

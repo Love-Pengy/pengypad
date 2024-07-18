@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 
-add_executable(pengypad ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.c ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.h ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.pio ${CMAKE_CURRENT_LIST_DIR}/ws2812/generated/ws2812.py)
+add_executable(pengypad ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.c ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.h ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.pio ${CMAKE_CURRENT_LIST_DIR}/ws2812/generated/ws2812.py ${CMAKE_CURRENT_LIST_DIR}/keyScan/keyScan.c ${CMAKE_CURRENT_LIST_DIR}/keyScan/keyScan.h)
 pico_generate_pio_header(pengypad
     ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.pio
 )
@@ -15,6 +15,7 @@ target_sources(pengypad PUBLIC
 target_include_directories(pengypad PUBLIC
         ${CMAKE_CURRENT_LIST_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/ws2812
+        ${CMAKE_CURRENT_LIST_DIR}/keyScan
         )
 
 # In addition to pico_stdlib required for common PicoSDK functionality, add dependency on tinyusb_device

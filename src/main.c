@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "bsp/board.h"
+#include "keyScan/keyScan.h"
 #include "pico/multicore.h"
 #include "pico/stdlib.h"
 #include "tusb.h"
@@ -39,11 +40,9 @@ int main(void) {
 
     board_init();
     tusb_init();
-	/*   should show up as the following: */
-	/*   0001  Fry's Electronics*/
-	/*7778  Counterfeit flash drive [Kingston]*/
+    initKeyboard();
     while (1) {
-        //causes ws2812Runner to break
+        // causes ws2812Runner to break
         tud_task();
         // led_blinking_task();
         hid_task();
@@ -52,9 +51,9 @@ int main(void) {
 
 // Invoked when device is mounted
 void tud_mount_cb(void) {
-    ws2812ChangeStatus(0); 
+    ws2812ChangeStatus(0);
     ws2812ChangeMode(1);
-    blink_interval_ms = BLINK_MOUNTED; 
+    blink_interval_ms = BLINK_MOUNTED;
 }
 
 // Invoked when device is unmounted
@@ -96,13 +95,14 @@ static void send_hid_report(uint8_t report_id, uint32_t keyPressed) {
     static bool has_keyboard_key = false;
 
     if (keyPressed) {
+        ws2812ChangeStatus(0);
         uint8_t keycode[6] = {0};
-        keycode[0] = HID_KEY_A;
-
+        keycode[0] = HID_KEY_SPACE;
         tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
         has_keyboard_key = true;
     }
     else {
+        ws2812ChangeStatus(10);
         // send empty key report if previously has key pressed
         if (has_keyboard_key)
             tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
@@ -125,7 +125,7 @@ void hid_task(void) {
     start_ms += interval_ms;
 
     // for testing purposes we are assuming that it is always pressed
-    uint32_t const btn = board_button_read();
+    uint32_t const btn = scanKeys();
 
     // Remote wakeup
     if (tud_suspended() && btn) {
@@ -150,7 +150,7 @@ void tud_hid_report_complete_cb(
     uint8_t next_report_id = report[0] + 1;
 
     if (next_report_id < REPORT_ID_COUNT) {
-        send_hid_report(next_report_id, board_button_read());
+        send_hid_report(next_report_id, scanKeys());
     }
 }
 // Invoked when received GET_REPORT control request
