@@ -95,14 +95,37 @@ static void send_hid_report(uint8_t report_id, uint32_t keyPressed) {
     static bool has_keyboard_key = false;
 
     if (keyPressed) {
-        ws2812ChangeStatus(0);
         uint8_t keycode[6] = {0};
-        keycode[0] = HID_KEY_SPACE;
+        // skip
+        if (keyPressed == 1) {
+            keycode[0] = 0xeb;
+        }
+        // prev
+        else if (keyPressed == 2) {
+            keycode[0] = 0xea;
+        }
+        // play pause
+        else if(keyPressed == 3){
+            keycode[0] = 0xe8;
+        }
+        else if(keyPressed == 4){
+            // NOT IMPLEMENTED NEED TO FIGURE OUT KEY FIRST
+        }
+        else if(keyPressed == 5){
+            keycode[0] = HID_KEY_ALT_RIGHT;
+            keycode[1] = HID_KEY_SHIFT_RIGHT;
+            keycode[2] = HID_KEY_X;
+        }
+        else if(keyPressed == 100){
+            // this is where the encoder is going to be 
+        }
+        else {
+            // error checking 
+        }
         tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
         has_keyboard_key = true;
     }
     else {
-        ws2812ChangeStatus(10);
         // send empty key report if previously has key pressed
         if (has_keyboard_key)
             tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, NULL);
