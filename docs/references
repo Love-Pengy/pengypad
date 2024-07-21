@@ -8,8 +8,8 @@
         + https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://usb.ktemkin.com/files/8a35f1350a32d1b2ab2efa5c3e5036e30b9cdcac53a4f772a8db122fcbe2a1a1/usb_device_framework_chapter.pdf&ved=2ahUKEwiLqu662JiHAxVdEFkFHXpqAuMQFnoECBUQAQ&usg=AOvVaw23TmjljszMGQNjGTtWw_Sn
 + rp2040 pi-zero pinout 
     + https://www.waveshare.com/wiki/RP2040-Zero
-+ encoder pin out 
-    + https://learn.adafruit.com/rotary-encoder/hardware
 + keycodes 
     + https://gist.github.com/MightyPork/6da26e382a7ad91b5496ee55fdc73db2
++ encoder pin out/learning 
+    - https://www.candrian.gr/index.php/3-pin-rotary-encoder-how-to/
 
