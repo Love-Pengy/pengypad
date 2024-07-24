@@ -23,7 +23,10 @@
 - ~~create a solid mode for the ws2812 to indicate a mounted state~~
 - ~~change the bin file to pengypad instead of src~~
 - ~~buy an encoder~~
-
+- ~~do invalid sequence testing for encoder to ensure that we get the right output~~ 
+    - ~~redo everything to use a state machine~~
+- implement button for encoder 
+- implement encoder into main
 - decide what keys I want
   - figure out what the keycodes for these keys are
     - Skip

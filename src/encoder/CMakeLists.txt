@@ -12,4 +12,3 @@ pico_add_extra_outputs(encoder)
 example_auto_set_url(encoder)
 pico_enable_stdio_usb(encoder 1)
 pico_enable_stdio_uart(encoder 0)
-

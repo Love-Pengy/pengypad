@@ -9,6 +9,7 @@
 #include "tusb.h"
 #include "usb_descriptors.h"
 #include "ws2812/ws2812.h"
+#include "encoder.h"
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF PROTYPES
@@ -41,6 +42,7 @@ int main(void) {
     board_init();
     tusb_init();
     initKeyboard();
+    initEncoder();
     while (1) {
         // causes ws2812Runner to break
         tud_task();
