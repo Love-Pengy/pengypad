@@ -26,7 +26,7 @@
 //  given the index of the array (where you're at) select the next spot you go
 // 00 01 11 10 00
 // 00 10 11 01 00
-// WE ARE SENDING AT HIGH 
+// WE ARE SENDING AT HIGH
 static const unsigned char template[7][4] = {
     // START 0x0 (expecting 0x01 or 0x10
     {START, CW_START, CCW_START, START},
@@ -53,19 +53,22 @@ void initEncoder(void) {
     gpio_pull_up(9);
     gpio_init(10);
     gpio_set_dir(10, GPIO_OUT);
+    gpio_init(11);
+    gpio_set_dir(11, GPIO_OUT);
+    gpio_put(11, 1);
+    gpio_init(12);
+    gpio_set_dir(12, GPIO_IN);
+    gpio_pull_down(12);
 }
 
 int main() {
-    volatile unsigned char state = 0;
-    volatile unsigned char prevState = 0;
-    unsigned char pinVal = 0;
-    unsigned char prevPin = 0;
-    bool inval = false;
+    static unsigned char state = 0;
+    static unsigned char pinVal = 0;
+    bool resetButton = false;
+
     stdio_init_all();
     initEncoder();
     while (true) {
-        prevState = state;
-        prevPin = pinVal;
         pinVal &= 0x00;
         gpio_put(8, 1);
         sleep_us(50);
@@ -78,10 +81,26 @@ int main() {
         gpio_put(10, 0);
         state = template[state & 0xf][pinVal];
         if (state == SEND_CW) {
-            printf("SEND CW\n");
+            if (!resetButton) {
+                printf("SEND CW\n");
+            }
         }
         else if (state == SEND_CCW) {
-            printf("SEND CCW\n");
+            if (!resetButton) {
+                printf("SEND CCW\n");
+            }
+        }
+        else {
+            // check the button
+            if (gpio_get(12)) {
+                if (!resetButton) {
+                    printf("PUSHED\n");
+                    resetButton = true;
+                }
+            }
+            else {
+                resetButton = false;
+            }
         }
     }
 }

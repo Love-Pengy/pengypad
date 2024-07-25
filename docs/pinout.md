@@ -30,6 +30,11 @@
   - READER: 15
 - ENCODER: VOL UP/VOL DOWN
   - [PIN OUT](./references)
-  - two pins to ground  
-  - push button out to 10
-  - pulse outputs to 9 and 8
+  - looking at it from the two prong side 
+    - encoder
+        - 8 is left 
+        - 9 is middle
+        - 10 is right
+    - button 
+        - 11 is left 
+        - 12 is right

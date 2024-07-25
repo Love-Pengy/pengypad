@@ -25,6 +25,8 @@
 - ~~buy an encoder~~
 - ~~do invalid sequence testing for encoder to ensure that we get the right output~~ 
     - ~~redo everything to use a state machine~~
+
+
 - implement button for encoder 
 - implement encoder into main
 - decide what keys I want
@@ -61,3 +63,4 @@
   - ~~figure out modifier keys~~
   - do the rest of the keys
 - setup oled
+- make it so that you can have just a .h file of mappings 
