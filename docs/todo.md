@@ -25,10 +25,10 @@
 - ~~buy an encoder~~
 - ~~do invalid sequence testing for encoder to ensure that we get the right output~~ 
     - ~~redo everything to use a state machine~~
+- ~~implement button for encoder~~
+- ~~implement encoder into main~~
 
 
-- implement button for encoder 
-- implement encoder into main
 - decide what keys I want
   - figure out what the keycodes for these keys are
     - Skip
@@ -48,11 +48,11 @@
         - RSHIFT: 0x20
         - x: 0x1b
     - Encoder would be vol up vol down and mute and unmute
-      - KEY_VOLUMEUP
+      - HID_KEY_VOLUMEUP
         - 0x80
-      - KEY_VOLUMEDOWN  
+      - HID_KEY_VOLUMEDOWN  
         - 0x81
-      - KEY_MUTE
+      - HID_KEY_MUTE
         - 0x7f
 - get my key reading working (don't use a matrix)
   - ~~build a makeshift keyboard on a breadboard (just make it manual I dont have buttons)~~
@@ -62,5 +62,6 @@
   - ~~when in send_hid_report we need to check what buttons are pressed from the bitmap returned from our scan~~
   - ~~figure out modifier keys~~
   - do the rest of the keys
+    - figure out keybinds for pomo timer
 - setup oled
 - make it so that you can have just a .h file of mappings 

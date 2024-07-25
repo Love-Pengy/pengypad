@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
+#include "encoder.h"
 #include <stdio.h>
 
 #include "pico/stdlib.h"
@@ -61,46 +62,47 @@ void initEncoder(void) {
     gpio_pull_down(12);
 }
 
-int main() {
-    static unsigned char state = 0;
-    static unsigned char pinVal = 0;
-    bool resetButton = false;
+// 0 send nothing
+// 1 send cw
+// 2 send ccw
+// 3 send push button
+static unsigned char state = 0;
+static unsigned char pinVal = 0;
+static bool resetButton = false;
 
-    stdio_init_all();
-    initEncoder();
-    while (true) {
-        pinVal &= 0x00;
-        gpio_put(8, 1);
-        sleep_us(50);
-        pinVal |= gpio_get(9);
-        gpio_put(8, 0);
+unsigned char pollEncoder(void) {
+    pinVal &= 0x00;
+    gpio_put(8, 1);
+    sleep_us(50);
+    pinVal |= gpio_get(9);
+    gpio_put(8, 0);
 
-        gpio_put(10, 1);
-        sleep_us(50);
-        pinVal |= (gpio_get(9) << 1);
-        gpio_put(10, 0);
-        state = template[state & 0xf][pinVal];
-        if (state == SEND_CW) {
+    gpio_put(10, 1);
+    sleep_us(50);
+    pinVal |= (gpio_get(9) << 1);
+    gpio_put(10, 0);
+    state = template[state & 0xf][pinVal];
+    switch (state) {
+        case SEND_CW:
             if (!resetButton) {
-                printf("SEND CW\n");
+                return (1);
             }
-        }
-        else if (state == SEND_CCW) {
+            goto BUTTON;
+        case SEND_CCW:
             if (!resetButton) {
-                printf("SEND CCW\n");
+                return (2);
             }
-        }
-        else {
-            // check the button
+        BUTTON:
+        default:
             if (gpio_get(12)) {
                 if (!resetButton) {
-                    printf("PUSHED\n");
+                    return (3);
                     resetButton = true;
                 }
+                else {
+                    resetButton = false;
+                }
             }
-            else {
-                resetButton = false;
-            }
-        }
     }
+    return(0);
 }

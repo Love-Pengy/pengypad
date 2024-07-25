@@ -3,13 +3,13 @@
 #include <string.h>
 
 #include "bsp/board.h"
+#include "encoder/encoder.h"
 #include "keyScan/keyScan.h"
 #include "pico/multicore.h"
 #include "pico/stdlib.h"
 #include "tusb.h"
 #include "usb_descriptors.h"
 #include "ws2812/ws2812.h"
-#include "encoder.h"
 
 //--------------------------------------------------------------------+
 // MACRO CONSTANT TYPEDEF PROTYPES
@@ -107,22 +107,29 @@ static void send_hid_report(uint8_t report_id, uint32_t keyPressed) {
             keycode[0] = 0xea;
         }
         // play pause
-        else if(keyPressed == 3){
+        else if (keyPressed == 3) {
             keycode[0] = 0xe8;
         }
-        else if(keyPressed == 4){
+        else if (keyPressed == 4) {
             // NOT IMPLEMENTED NEED TO FIGURE OUT KEY FIRST
         }
-        else if(keyPressed == 5){
+        else if (keyPressed == 5) {
             keycode[0] = HID_KEY_ALT_RIGHT;
             keycode[1] = HID_KEY_SHIFT_RIGHT;
             keycode[2] = HID_KEY_X;
         }
-        else if(keyPressed == 100){
-            // this is where the encoder is going to be 
+        else if (keyPressed == 6) {
+            keycode[0] = HID_KEY_VOLUME_UP;
+            // this is where the encoder is going to be
+        }
+        else if (keyPressed == 7) {
+            keycode[0] = HID_KEY_VOLUME_DOWN;
+        }
+        else if (keyPressed == 8) {
+            keycode[0] = HID_KEY_MUTE;
         }
         else {
-            // error checking 
+            // error checking
         }
         tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
         has_keyboard_key = true;

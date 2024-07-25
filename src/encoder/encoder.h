@@ -1,3 +1,3 @@
 #pragma once
-int pollEncoder(void);
+unsigned char pollEncoder(void);
 void initEncoder(void);
