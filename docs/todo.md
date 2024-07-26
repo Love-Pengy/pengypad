@@ -41,12 +41,21 @@
       - KEY_MEDIA_PLAYPAUSE
         - 0xe8
     - Pause/play my pomo timer
-      - I still need to make the bind for this
+        - Keybind: ALT+SHIFT+P
+            - HID_KEY_ALT_RIGHT 
+                - 0x40
+            - HID_KEY_SHIFT_RIGHT 
+                - 0x20
+            - HID_KEY_P
+                - 0x13
     - Suspending computer (implement menu by this time)
       - Keybind: ALT+SHIFT+X
-        - RALT: 0x40
-        - RSHIFT: 0x20
-        - x: 0x1b
+        - HID_KEY_ALT_RIGHT 
+            - 0x40
+        - HID_KEY_SHIFT_RIGHT 
+            - 0x20
+        - HID_KEY_X 
+            - 0x1b
     - Encoder would be vol up vol down and mute and unmute
       - HID_KEY_VOLUMEUP
         - 0x80

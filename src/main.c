@@ -11,23 +11,10 @@
 #include "usb_descriptors.h"
 #include "ws2812/ws2812.h"
 
-//--------------------------------------------------------------------+
-// MACRO CONSTANT TYPEDEF PROTYPES
-//--------------------------------------------------------------------+
+#define HID_KEY_PREVIOUS_SONG 0xea
+#define HID_KEY_NEXT_SONG 0xeb
+#define HID_KEY_PLAY_PAUSE 0xe8
 
-/* Blink pattern
- * - 250 ms  : device not mounted
- * - 1000 ms : device mounted
- * - 2500 ms : device is suspended
- */
-enum {
-    BLINK_NOT_MOUNTED = 250,
-    BLINK_MOUNTED = 1000,
-    BLINK_SUSPENDED = 2500,
-};
-
-// start blink speed
-static uint32_t blink_interval_ms = BLINK_NOT_MOUNTED;
 
 void led_blinking_task(void);
 void hid_task(void);
@@ -55,14 +42,12 @@ int main(void) {
 void tud_mount_cb(void) {
     ws2812ChangeStatus(0);
     ws2812ChangeMode(1);
-    blink_interval_ms = BLINK_MOUNTED;
 }
 
 // Invoked when device is unmounted
 void tud_umount_cb(void) {
     ws2812ChangeStatus(1);
     ws2812ChangeMode(0);
-    blink_interval_ms = BLINK_NOT_MOUNTED;
 }
 
 // Invoked when usb bus is suspended
@@ -73,14 +58,12 @@ void tud_suspend_cb(bool remote_wakeup_en) {
     (void)remote_wakeup_en;
     ws2812ChangeStatus(2);
     ws2812ChangeMode(0);
-    blink_interval_ms = BLINK_SUSPENDED;
 }
 
 // Invoked when usb bus is resumed
 void tud_resume_cb(void) {
     ws2812ChangeStatus(0);
     ws2812ChangeMode(1);
-    blink_interval_ms = BLINK_MOUNTED;
 }
 
 //--------------------------------------------------------------------+
@@ -98,20 +81,22 @@ static void send_hid_report(uint8_t report_id, uint32_t keyPressed) {
 
     if (keyPressed) {
         uint8_t keycode[6] = {0};
-        // skip
+        // next
         if (keyPressed == 1) {
-            keycode[0] = 0xeb;
+            keycode[0] = HID_KEY_NEXT_SONG;
         }
         // prev
         else if (keyPressed == 2) {
-            keycode[0] = 0xea;
+            keycode[0] = HID_KEY_PREVIOUS_SONG;
         }
         // play pause
         else if (keyPressed == 3) {
-            keycode[0] = 0xe8;
+            keycode[0] = HID_KEY_PLAY_PAUSE;
         }
         else if (keyPressed == 4) {
-            // NOT IMPLEMENTED NEED TO FIGURE OUT KEY FIRST
+            keycode[0] = HID_KEY_ALT_RIGHT;
+            keycode[1] = HID_KEY_SHIFT_RIGHT;
+            keycode[2] = HID_KEY_P;
         }
         else if (keyPressed == 5) {
             keycode[0] = HID_KEY_ALT_RIGHT;
@@ -218,37 +203,12 @@ void tud_hid_set_report_cb(
 
             if (kbd_leds & KEYBOARD_LED_CAPSLOCK) {
                 // Capslock On: disable blink, turn led on
-                blink_interval_ms = 0;
-                board_led_write(true);
             }
             else {
                 // Caplocks Off: back to normal blink
-                board_led_write(false);
-                blink_interval_ms = BLINK_MOUNTED;
                 ws2812ChangeStatus(0);
             }
         }
     }
 }
 
-//--------------------------------------------------------------------+
-// BLINKING TASK
-//--------------------------------------------------------------------+
-/*
-void led_blinking_task(void) {
-    static uint32_t start_ms = 0;
-    static bool led_state = false;
-
-    // blink is disabled
-    if (!blink_interval_ms) return;
-
-    // Blink every interval ms
-    if (board_millis() - start_ms < blink_interval_ms) {
-        return;  // not enough time
-    }
-    start_ms += blink_interval_ms;
-
-    // board_led_write(led_state);
-    led_state = 1 - led_state;  // toggle
-}
-*/
