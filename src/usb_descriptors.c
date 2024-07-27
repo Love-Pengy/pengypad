@@ -5,11 +5,12 @@
 
 // TAKEN FROM EXAMPLE PLAY WITH LATER
 #define _PID_MAP(itf, n) ((CFG_TUD_##itf) << (n))
-#define USB_PID \
-    (0x4000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | \
-     _PID_MAP(MIDI, 3) | _PID_MAP(VENDOR, 4))
+/*#define USB_PID \*/
+/*    (0x4000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | \*/
+/*     _PID_MAP(MIDI, 3) | _PID_MAP(VENDOR, 4))*/
+#define USB_PID 0x0001
 
-#define USB_VID 0xCafe
+#define USB_VID 0xBEE3
 #define USB_BCD 0x0200
 //////////////////////////////////////
 

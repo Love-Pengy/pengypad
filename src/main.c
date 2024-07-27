@@ -5,16 +5,12 @@
 #include "bsp/board.h"
 #include "encoder/encoder.h"
 #include "keyScan/keyScan.h"
+#include "mappings.h"
 #include "pico/multicore.h"
 #include "pico/stdlib.h"
 #include "tusb.h"
 #include "usb_descriptors.h"
 #include "ws2812/ws2812.h"
-
-#define HID_KEY_PREVIOUS_SONG 0xea
-#define HID_KEY_NEXT_SONG 0xeb
-#define HID_KEY_PLAY_PAUSE 0xe8
-
 
 void led_blinking_task(void);
 void hid_task(void);
@@ -79,44 +75,8 @@ static void send_hid_report(uint8_t report_id, uint32_t keyPressed) {
     // use to avoid send multiple consecutive zero report for keyboard
     static bool has_keyboard_key = false;
 
-    if (keyPressed) {
-        uint8_t keycode[6] = {0};
-        // next
-        if (keyPressed == 1) {
-            keycode[0] = HID_KEY_NEXT_SONG;
-        }
-        // prev
-        else if (keyPressed == 2) {
-            keycode[0] = HID_KEY_PREVIOUS_SONG;
-        }
-        // play pause
-        else if (keyPressed == 3) {
-            keycode[0] = HID_KEY_PLAY_PAUSE;
-        }
-        else if (keyPressed == 4) {
-            keycode[0] = HID_KEY_ALT_RIGHT;
-            keycode[1] = HID_KEY_SHIFT_RIGHT;
-            keycode[2] = HID_KEY_P;
-        }
-        else if (keyPressed == 5) {
-            keycode[0] = HID_KEY_ALT_RIGHT;
-            keycode[1] = HID_KEY_SHIFT_RIGHT;
-            keycode[2] = HID_KEY_X;
-        }
-        else if (keyPressed == 6) {
-            keycode[0] = HID_KEY_VOLUME_UP;
-            // this is where the encoder is going to be
-        }
-        else if (keyPressed == 7) {
-            keycode[0] = HID_KEY_VOLUME_DOWN;
-        }
-        else if (keyPressed == 8) {
-            keycode[0] = HID_KEY_MUTE;
-        }
-        else {
-            // error checking
-        }
-        tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keycode);
+    if (keyPressed && (keyPressed > 0 && keyPressed < 10)){
+        tud_hid_keyboard_report(REPORT_ID_KEYBOARD, 0, keyMappings[keyPressed]);
         has_keyboard_key = true;
     }
     else {
@@ -211,4 +171,3 @@ void tud_hid_set_report_cb(
         }
     }
 }
-

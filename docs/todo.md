@@ -27,50 +27,54 @@
     - ~~redo everything to use a state machine~~
 - ~~implement button for encoder~~
 - ~~implement encoder into main~~
-
-
-- decide what keys I want
-  - figure out what the keycodes for these keys are
-    - Skip
-      - KEY_MEDIA_NEXTSONG
-        - 0xeb
-    - Prev
-      - KEY_MEDIA_PREVIOUSSONG
-        - 0xea
-    - Pause/Play Music
-      - KEY_MEDIA_PLAYPAUSE
-        - 0xe8
-    - Pause/play my pomo timer
-        - Keybind: ALT+SHIFT+P
-            - HID_KEY_ALT_RIGHT 
-                - 0x40
-            - HID_KEY_SHIFT_RIGHT 
-                - 0x20
-            - HID_KEY_P
-                - 0x13
-    - Suspending computer (implement menu by this time)
-      - Keybind: ALT+SHIFT+X
-        - HID_KEY_ALT_RIGHT 
-            - 0x40
-        - HID_KEY_SHIFT_RIGHT 
-            - 0x20
-        - HID_KEY_X 
-            - 0x1b
-    - Encoder would be vol up vol down and mute and unmute
-      - HID_KEY_VOLUMEUP
-        - 0x80
-      - HID_KEY_VOLUMEDOWN  
-        - 0x81
-      - HID_KEY_MUTE
-        - 0x7f
-- get my key reading working (don't use a matrix)
+- ~~decide what keys I want~~
+  - ~~figure out what the keycodes for these keys are~~
+    - ~~Skip~~
+      - ~~KEY_MEDIA_NEXTSONG~~
+        - ~~0xeb~~
+    - ~~Prev~~
+      - ~~KEY_MEDIA_PREVIOUSSONG~~
+        - ~~0xea~~
+    - ~~Pause/Play Music~~
+      - ~~KEY_MEDIA_PLAYPAUSE~~
+        - ~~0xe8~~
+    - ~~Pause/play my pomo timer~~
+        - ~~Keybind: ALT+SHIFT+P~~
+            - ~~HID_KEY_ALT_RIGHT~~ 
+                - ~~0x40~~
+            - ~~HID_KEY_SHIFT_RIGHT~~ 
+                - ~~0x20~~
+            - ~~HID_KEY_P~~
+                - ~~0x13~~
+    - ~~Suspending computer (implement menu by this time)~~
+      - ~~Keybind: ALT+SHIFT+X~~
+        - ~~HID_KEY_ALT_RIGHT~~ 
+            - ~~0x40~~
+        - ~~HID_KEY_SHIFT_RIGHT~~ 
+            - ~~0x20~~
+        - ~~HID_KEY_X~~ 
+            - ~~0x1b~~
+    - ~~Encoder would be vol up vol down and mute and unmute~~
+      - ~~HID_KEY_VOLUMEUP~~
+        - ~~0x80~~
+      - ~~HID_KEY_VOLUMEDOWN~~  
+        - ~~0x81~~
+      - ~~HID_KEY_MUTE~~
+        - ~~0x7f~~
+- ~~get my key reading working (don't use a matrix)~~
   - ~~build a makeshift keyboard on a breadboard (just make it manual I dont have buttons)~~
   - ~~make sure there is some form of debouncing~~
     - seems to be built into either the tud functions or the usb interface itself
   - ~~replace board_button_read with this function~~
   - ~~when in send_hid_report we need to check what buttons are pressed from the bitmap returned from our scan~~
   - ~~figure out modifier keys~~
-  - do the rest of the keys
-    - figure out keybinds for pomo timer
+  - ~~do the rest of the keys~~
+    - ~~figure out keybinds for pomo timer~~
+- ~~make it so that you can have just a .h file of mappings~~ 
+
+
+
+- do a readme 
+- make this a single module where you don't have to have it in the pico sdk thingy 
 - setup oled
-- make it so that you can have just a .h file of mappings 
+- build the actual macropad

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 
-add_executable(pengypad ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.c ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.h ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.pio ${CMAKE_CURRENT_LIST_DIR}/ws2812/generated/ws2812.py ${CMAKE_CURRENT_LIST_DIR}/keyScan/keyScan.c ${CMAKE_CURRENT_LIST_DIR}/keyScan/keyScan.h ${CMAKE_CURRENT_LIST_DIR}/encoder/encoder.c ${CMAKE_CURRENT_LIST_DIR}/encoder/encoder.h)
+add_executable(pengypad ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.c ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.h ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.pio ${CMAKE_CURRENT_LIST_DIR}/ws2812/generated/ws2812.py ${CMAKE_CURRENT_LIST_DIR}/keyScan/keyScan.c ${CMAKE_CURRENT_LIST_DIR}/keyScan/keyScan.h ${CMAKE_CURRENT_LIST_DIR}/encoder/encoder.c ${CMAKE_CURRENT_LIST_DIR}/encoder/encoder.h ${CMAKE_CURRENT_LIST_DIR}/mappings.h)
 pico_generate_pio_header(pengypad
     ${CMAKE_CURRENT_LIST_DIR}/ws2812/ws2812.pio
 )
