@@ -30,5 +30,5 @@ target_link_libraries(pengypad PUBLIC pico_stdlib pico_unique_id tinyusb_device 
 pico_add_extra_outputs(pengypad)
 
 # add url via pico_set_program_url
-example_auto_set_url(pengypad)
+# example_auto_set_url(pengypad)
 

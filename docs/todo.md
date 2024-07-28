@@ -71,7 +71,7 @@
   - ~~do the rest of the keys~~
     - ~~figure out keybinds for pomo timer~~
 - ~~make it so that you can have just a .h file of mappings~~ 
-
+- ~~change name of binary dir to pengypad~~  
 
 
 - do a readme 
