@@ -2,15 +2,9 @@
 
 A macropad made from "scratch" using [Tiny USB](https://github.com/hathach/tinyusb) and the pico sdk in C.
 
-<style>
-img{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50;
-}
-</style>
-<img src="./docs/IMG_3721.jpg" alt="Pengypad" height="600" class="center"/>
+<div style="text-align: center;">
+    <img src="./docs/IMG_3721.jpg" alt="Pengypad" height="600"/>
+</div>
 
 ## Things Used
 
