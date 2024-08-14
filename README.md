@@ -11,7 +11,8 @@ A macropad made from "scratch" using [Tiny USB](https://github.com/hathach/tinyu
 + Microcontroller: RP2040 Zero  
 + Case: [Print Files](/printFiles/)
 + Switches: Durock Shrimps
-+ Keycaps:
++ Keycaps: https://www.etsy.com/listing/1358529198/dsa-pbt-keycap-blanks-25-colors
++ Encoder: https://www.amazon.com/dp/B07DM2YMT4?psc=1&ref=ppx_yo2ov_dt_b_product_details
 
 ## Build Instructions
 
