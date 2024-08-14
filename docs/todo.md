@@ -72,9 +72,9 @@
     - ~~figure out keybinds for pomo timer~~
 - ~~make it so that you can have just a .h file of mappings~~ 
 - ~~change name of binary dir to pengypad~~  
+- ~~make this a single module where you don't have to have it in the pico sdk thingy~~ 
 
 
 - do a readme 
-- make this a single module where you don't have to have it in the pico sdk thingy 
 - setup oled
 - build the actual macropad

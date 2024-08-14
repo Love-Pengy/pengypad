@@ -10,7 +10,7 @@
 #include "../encoder/encoder.h"
 
 #define INPINSIZE 5
-static uint8_t inPinArray[] = {29, 28, 27, 26, 15};
+static uint8_t inPinArray[] = {14, 10, 7, 4, 2};
 
 void initKeyboard(void) {
     for (int i = 0; i < INPINSIZE; i++) {

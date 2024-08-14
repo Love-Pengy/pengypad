@@ -13,28 +13,30 @@
 - READER = the pin that checks the value
 - OUTPUT = is just the 5v pin
   - should we just leave it at high or set it back to 0 every time
+STARTING FROM UNDER THE ENCODER
 - KEY 1
   - OUTPUT: 5V  
-  - READER: 29
+  - READER: 14
 - KEY 2
   - OUTPUT: 5V
-  - READER: 28
+  - READER: 10
 - KEY 3
   - OUTPUT: 5V
-  - READER: 27
+  - READER: 7
 - KEY 4
   - OUTPUT: 5V
-  - READER: 26
+  - READER: 4
+THIS ONE IS THE ONE RIGHT UNDER THE MCU
 - KEY 5
   - OUTPUT: 5V
-  - READER: 15
+  - READER: 2
 - ENCODER: VOL UP/VOL DOWN
   - [PIN OUT](./references)
   - looking at it from the two prong side 
     - encoder
-        - 8 is left 
-        - 9 is middle
-        - 10 is right
+        - 27 is left 
+        - 26 is middle
+        - 15 is right
     - button 
-        - 11 is left 
-        - 12 is right
+        - 29 is left 
+        - 28 is right

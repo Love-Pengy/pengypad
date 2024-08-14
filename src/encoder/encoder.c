@@ -9,9 +9,9 @@
 
 #include "pico/stdlib.h"
 
-// 8 A
-// 9: C
-// 10: B
+// 27 A
+// 26: C
+// 15: B
 
 #define START 0x0      // 0b0000
 #define CW_START 0x1   // 0b0001
@@ -46,20 +46,20 @@ static const unsigned char template[7][4] = {
 };
 
 void initEncoder(void) {
-    gpio_init(8);
-    gpio_set_dir(8, GPIO_OUT);
-    gpio_init(9);
-    gpio_set_dir(9, GPIO_IN);
+    gpio_init(27);
+    gpio_set_dir(27, GPIO_OUT);
+    gpio_init(26);
+    gpio_set_dir(26, GPIO_IN);
     // MAKE SURE THIS IS ON PULL UP SILLY
-    gpio_pull_up(9);
-    gpio_init(10);
-    gpio_set_dir(10, GPIO_OUT);
-    gpio_init(11);
-    gpio_set_dir(11, GPIO_OUT);
-    gpio_put(11, 1);
-    gpio_init(12);
-    gpio_set_dir(12, GPIO_IN);
-    gpio_pull_down(12);
+    gpio_pull_down(26);
+    gpio_init(15);
+    gpio_set_dir(15, GPIO_OUT);
+    gpio_init(29);
+    gpio_set_dir(29, GPIO_OUT);
+    gpio_put(29, 1);
+    gpio_init(28);
+    gpio_set_dir(28, GPIO_IN);
+    gpio_pull_down(28);
 }
 
 // 0 send nothing
@@ -69,18 +69,19 @@ void initEncoder(void) {
 static unsigned char state = 0;
 static unsigned char pinVal = 0;
 static bool resetButton = false;
+static unsigned char previousState = 0;
 
 unsigned char pollEncoder(void) {
     pinVal &= 0x00;
-    gpio_put(8, 1);
+    gpio_put(27, 1);
     sleep_us(50);
-    pinVal |= gpio_get(9);
-    gpio_put(8, 0);
+    pinVal |= gpio_get(26);
+    gpio_put(27, 0);
 
-    gpio_put(10, 1);
+    gpio_put(15, 1);
     sleep_us(50);
-    pinVal |= (gpio_get(9) << 1);
-    gpio_put(10, 0);
+    pinVal |= (gpio_get(26) << 1);
+    gpio_put(15, 0);
     state = template[state & 0xf][pinVal];
     switch (state) {
         case SEND_CW:
@@ -106,3 +107,6 @@ unsigned char pollEncoder(void) {
     }
     return(0);
 }
+
+
+
